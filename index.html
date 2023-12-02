@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Online IDE</title>
+</head>
+
+<body>
+    <div class="header" id="header">
+        <div class="title">
+            <span >Online IDE</span>
+            <button id="runBtn">Run</button>
+        </div>
+        <div class="show-menue" id="show-menue">
+            <i class="ri-setting-line"></i>
+        </div>
+        <div class="menue" id="menue">
+            <div class="alert message message-animation menue-message" id="body-profile-message" role="alert">
+				<p id="menue-messagee">
+					Setting
+				</p>
+			</div>
+            <div class="close-menue" id="close-menue">
+				<i class="ri-close-line change-theme"></i>
+			</div>
+            <div class="sec-1">
+                <div>
+                    <span>Font Size</span>
+                    <input type="range" name="font-size" id="font-size">
+                    <span id="font-count"></span>
+                </div>
+            </div>
+            <div class="sec-2">
+                <div class="inputs-sec-2">
+                    <div class="">
+                        <span>Aouto Run</span>
+                        <input type="checkbox" name="auto-run" id="auto-run">
+                    </div>
+                    <div class="">
+                        <span>Auto Save</span>
+                        <input type="checkbox" name="auto-save" id="auto-save">
+                    </div>
+                    <div class="">
+                        <span>Word Wrap</span>
+                        <input type="checkbox" name="wrap" id="wrap">
+                    </div>
+                    <div class="">
+                        <span>Full Screen</span>
+                        <input type="checkbox" name="full-secreen-editor" id="full-secreen-editor">
+                    </div>
+                </div>
+                <button id="save">Save</button>
+            </div>
+        </div>
+    </div>
+    <div class="app" id="app">
+        <div class="textArea">
+            <textarea name="textArea" id="editor"></textarea>
+            <code name="textArea" id="result"> </code>
+        </div>
+    </div>
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
