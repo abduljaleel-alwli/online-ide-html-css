@@ -1,17 +1,23 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    transition: none !important;
 }
-*::selection,html::selection,body::selection{
+
+*::selection,
+html::selection,
+body::selection {
     background: #252541;
     background: #551a8b;
     color: #ec6091ce;
     color: white;
     border-radius: 10px;
-  }
-body{
-    color: #8dbef6;
+}
+
+body {
+    /* color: #8dbef6; */
+    color: #06edff;
     font-family: system-ui;
     background: #101415;
     background: #000103;
@@ -19,71 +25,82 @@ body{
     height: 100vh;
     background: #001;
 }
-.app{
+
+.app {
     width: 100%;
     height: 100%;
     margin: auto;
-    margin-top: 75px;
+    margin-top: 50px;
 }
-.Keybord{
+
+.Keybord {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     justify-content: space-evenly;
 }
-button{
+
+button {
     /* background: #8dbef6; */
     border-radius: 5px;
     border: 3px solid #0000293d !important;
     border-radius: 5px 5px 3px 3px !important;
     padding: 5px 21px;
     margin: 8px 3px;
+    margin-left: 10px;
     color: black;
     background: none;
     color: white;
     border: 1px solid #551a8b !important;
     transition: background .4s ease-in-out;
 }
-button:hover{
+
+button:hover {
     background: #551a8b;
     color: white;
 }
-button:active{
+
+button:active {
     background: #6b6be8;
     color: white;
 }
+
 button,
-input{
+input {
     cursor: pointer;
 }
-input#font-size{
+
+input[type="range"] {
+    /* accent-color: #9b59b6; */
+    accent-color: #06e7f9;
+}
+input[type="checkbox"]:checked {
+    accent-color: #00ff00;
+  }
+  input[type="checkbox"]:hover {
+    accent-color: #ffff00;
+  }
+  input[type="checkbox"]:checked::after {
+    accent-color: #00ff00;
+  }
+
+input#font-size {
     cursor: grab;
 }
-input#font-size:active{
+
+input#font-size:active {
     cursor: grabbing;
 }
-#editor{
-    background: #001;
-    /* background: #25253B; */
-    /* color: #61acd7; */
-    min-height: 93%;
-    transition: .1s;
-    font-size: 18px;
-    transition: width 0.7s,
-                color .4s;
-}
-.textArea{
-    display: flex;
-    width: 100%;
-    height: 100%;
-    margin: auto;
-    margin-bottom: 15px;
-    margin-top: 10px;
-}
+
+
+
+/* ----------------------------------- */
+
 textarea,
-#result{
+#result {
+    position: relative;
     background: #25252d;
-    width: 50%;
+    width: 100%;
     height: 100%;
     max-height: 93%;
     margin: 0px 3px;
@@ -96,22 +113,88 @@ textarea,
     box-shadow: 0 0 0 4px #000011;
     color: #ffffffc2;
 }
-#result{
+
+#result {
     border: 1px solid #25252d;
     background: #252541;
     overflow: scroll;
     transition: width .7s;
 }
-.viewed{
+
+.bodyEditor {
+    position: absolute;
+    resize: both; 
+    overflow: auto;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    margin-bottom: 15px;
+}
+
+#editor {
+    background: #001;
+    /* background: #25253B; */
+    /* color: #61acd7; */
+    /* min-height: 93%; */
+    width: 100%;
+    height: 100%;
+    transition: .1s;
+    font-size: 18px;
+    transition: width 0.7s,
+        color .4s;
+}
+
+.splitter {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+#separator {
+    cursor: nesw-resize;
+    background: url(../images/resize02.png) center center no-repeat #000011;
+    background-position: center;
+    background-size: 14px;
+    background-position-x: -5px;
+    background-position-y: 2px;
+    width: 11px;
+    height: 11px;
+    position: sticky;
+    right: 10px;
+    transform: scale(2.5);
+    margin-top: 0px;
+    min-width: 10px;
+}
+#editorBody,
+#resultBody{
+    transition: .7s ease-in-out;
+}
+#editorBody {
+    width: 100%;
+    height: 100%;
+    min-width: 10px;
+}
+
+#resultBody {
+    width: 100%;
+    height: 100%;
+    min-width: 10px;
+}
+/* ----------------------------------- */
+
+
+.viewed {
     width: 100% !important;
 }
-.hiden{
+
+.hiden {
     color: transparent !important;
     width: 0% !important;
 }
 
 /* --- Header --- */
-.header{
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -125,61 +208,72 @@ textarea,
     overflow-x: scroll;
     transition: .7s;
 }
-.header div{
+
+.header div {
     margin: 0 5px;
 }
-.header #resultBtn{
+
+.header #resultBtn {
     padding: 4px 17px;
     font-size: 14px;
 }
-.menue{
+
+.menue {
     transition: all .7s;
 }
+
 .sec-2,
 .sec-1,
 .title,
 .menue,
-.sec-2 .inputs-sec-2{
+.sec-2 .inputs-sec-2 {
     display: flex;
     align-items: center;
 }
-.title{
+
+.title {
     color: white;
     font-size: 15px;
     margin-left: 10px !important;
 }
-#save{
+
+#save {
     color: white;
     border: 1px solid #50b7dd !important;
     background: none;
     transition: .4s ease-in-out;
 }
-#save:hover{
+
+#save:hover {
     background: #50b7dd;
 }
+
 #runBtn,
-input{
+input {
     margin: 0px 15px;
 }
+
 .show-menue,
-.close-menue{
+.close-menue {
     width: 23px;
     height: 23px;
     background: #252541;
     border-radius: 20px;
     display: none;
 }
-.show-menue{
+
+.show-menue {
     margin-top: 7px !important;
     margin-right: 3.6px !important;
 }
-.close-menue{
+
+.close-menue {
     position: absolute;
     top: 8px;
     left: 5px;
 }
 
-.menue-message{
+.menue-message {
     margin-top: 9px !important;
     text-align: center;
     border-left: 1px solid #f8d7da;
@@ -187,12 +281,23 @@ input{
 }
 
 @media screen and (max-width: 1094px) {
+
+    .app{
+        margin-top: 57px;
+    }
+
+    #resultBody {
+        min-width: 21px;
+        margin-right: 9px;
+    }
+
     .show-menue,
     .close-menue,
-    .menue-message{
+    .menue-message {
         display: inline-block;
     }
-    .menue{
+
+    .menue {
         display: flex;
         flex-direction: column;
         align-items: stretch;
@@ -204,51 +309,71 @@ input{
         color: white;
         overflow-y: scroll;
     }
+
     .sec-1,
     .sec-2,
-    .inputs-sec-2{
+    .inputs-sec-2 {
         display: flex;
         flex-direction: column;
     }
+
     .sec-1,
-    .sec-2{
+    .sec-2 {
         margin-top: 20px !important;
     }
-    .sec-2 div{
+
+    .sec-2 div {
         display: flex;
         align-items: center;
     }
-    .inputs-sec-2{
+
+    .inputs-sec-2 {
         width: 100%;
         overflow-x: hidden;
     }
-    .inputs-sec-2 div{
+
+    .inputs-sec-2 div {
         width: 100%;
         display: flex;
         justify-content: space-between !important;
         margin-left: 19px;
     }
-    #save{
+
+    #save {
         position: absolute;
         bottom: 0;
         width: 90%;
     }
-    .title{
+
+    .title {
         margin-top: 8px !important;
         margin-left: 10px !important;
     }
 
 }
 
+#myTextarea::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 10px;
+    background-color: red;
+    cursor: ew-resize;
+}
+
+
 /* Scroll Bar */
-::-webkit-scrollbar{
+::-webkit-scrollbar {
     background: none;
     width: 8px;
     height: 8px;
     cursor: pointer !important;
 
 }
-::-webkit-scrollbar-thumb{
+
+::-webkit-scrollbar-thumb {
     background-color: #565656;
     border-radius: 30px;
     cursor: pointer !important;

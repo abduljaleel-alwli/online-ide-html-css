@@ -5,8 +5,12 @@ const textArea = document.getElementById('textArea')
 
 const editor = document.getElementById('editor')
 const result = document.getElementById('result')
-const runBtn = document.getElementById('runBtn')
-const save =document.getElementById('save')
+
+const editorBody = document.getElementById('editorBody')
+const resultBody = document.getElementById('resultBody')
+
+const runCode = document.getElementById('runCode')
+const save = document.getElementById('save')
 const auto_run = document.getElementById('auto-run')
 const auto_save = document.getElementById('auto-save')
 const font_size = document.getElementById('font-size')
@@ -18,17 +22,17 @@ const menue = document.getElementById('menue')
 const show_Menue = document.getElementById('show-menue')
 const close_Menue = document.getElementById('close-menue')
 
-//---- Demo Code
+//----> Demo Code
 const viewResult = () => {
-    result.innerHTML = editor.value
+    result.srcdoc = editor.value
 }
 
-//---- Save Code in Localstorage
+//----> Save Code in Localstorage
 const saveCode = () => {
     localStorage.setItem('myCode', editor.value)
 }
 
-//---- Save Code in LocalStorage
+//----> Save Code in LocalStorage
 save.onclick = () => {
     saveCode()
 }
@@ -85,27 +89,40 @@ const default_values = () => {
     editor.value = localStorage.getItem('myCode')
 }
 
-//---- Get code from LocalStorage and write in Editor
+//----> Get code from LocalStorage and write in Editor
 window.onload = () => {
     default_values()
     Screen_Editor()
     checkWrap()
+    resizer()
 }
 
 
-//---- Result Button
-runBtn.onclick = () => {
+//----> Result Button
+runCode.onclick = () => {
     viewResult()
-    runBtn.classList.toggle('running')
-    result.classList.toggle('viewed')
-    editor.classList.toggle('hiden')
-    if (result.className == '') {
-        runBtn.style.background = '#551a8b'
-        runBtn.innerText = 'Run'
+    // runCode.classList.toggle('running')
+    // result.classList.toggle('viewed')
+    // editor.classList.toggle('hiden')
+    // if (result.className == '') {
+    //     runCode.style.background = '#551a8b'
+    //     runCode.innerText = 'Run'
+    // }else{
+    //     runCode.style.background = '#607d8b'
+    //     runCode.innerText = 'Edit'
+    // }
+
+    runCode.classList.toggle('running')
+    resultBody.classList.toggle('viewed')
+    editorBody.classList.toggle('hiden')
+    if (resultBody.className == '') {
+        runCode.style.background = '#551a8b'
+        runCode.innerText = 'Run'
     }else{
-        runBtn.style.background = '#607d8b'
-        runBtn.innerText = 'Edit'
+        runCode.style.background = '#607d8b'
+        runCode.innerText = 'Edit'
     }
+
 }
 
 // -- Checker Status box and Apply The Condition
@@ -117,7 +134,7 @@ const checker = (box, key) => {
     }
 }
 
-//---- Auto Save
+//----> Auto Save
 checker(auto_save, 'auto-save')
 auto_save.addEventListener('change', () => {
     if (auto_save.checked == true) {
@@ -127,7 +144,7 @@ auto_save.addEventListener('change', () => {
     }
 })
 
-//---- Auto Run
+//----> Auto Run
 checker(auto_run, 'auto-run')
 auto_run.addEventListener('change', () => {
     if (auto_run.checked == true) {
@@ -138,7 +155,7 @@ auto_run.addEventListener('change', () => {
 })
 
 
-//---- Font Size
+//----> Font Size
 font_count.innerText = localStorage.getItem('font-size-editor')
 font_size.oninput =  () => {
     editor.style.fontSize = `${font_size.value}px`
@@ -147,7 +164,7 @@ font_size.oninput =  () => {
 }
 
 
-//---- When you start writing, do the following
+//----> When you start writing, do the following
 editor.onkeyup = () => {
     if (localStorage.getItem('auto-save') == 'true') {
         saveCode()
@@ -162,42 +179,50 @@ editor.onkeyup = () => {
 }
 
 
-//---- Word Wrap
+//----> Word Wrap
 // Check wrap is activated or not
+// editorBody
+// resultBody
 const checkWrap = () => {
     const wrap_value = localStorage.getItem('wrap')
     const full_secreen_value = localStorage.getItem('full-screen-editor')
     if(wrap_value == 'true' && full_secreen_value == 'true'){
-        editor.style = 'width: 100%; text-wrap: wrap;'
+        editorBody.style = 'width: 100%';
+        editor.style = 'text-wrap: wrap;'
     }else if(wrap_value == 'false' && full_secreen_value == 'false'){
-        editor.style = 'width: 50%; text-wrap: nowrap;'
+        editorBody.style = 'width: 50%';
+        editor.style = 'text-wrap: nowrap;'
     }else if(wrap_value == 'false' && full_secreen_value == 'true'){
-        editor.style = 'width: 100%; text-wrap: nowrap;'
+        editorBody.style = 'width: 100%';
+        editor.style = 'text-wrap: nowrap;'
     }else if(wrap_value == 'true' && full_secreen_value == 'false'){
-        editor.style = 'width: 50%; text-wrap: wrap;'
+        editorBody.style = 'width: 50%';
+        editor.style = 'text-wrap: wrap;'
     }
 
     editor.style.fontSize = `${localStorage.getItem('font-size-editor')}px`
 }
 checker(wrap, 'wrap')
+
 wrap.addEventListener('change', () => {
     localStorage.setItem('wrap', wrap.checked)
     checkWrap()
 })
 
-//---- Full Screen 
+//----> Full Screen 
 const Screen_Editor = () => {
     const full_secreen_value = localStorage.getItem('full-screen-editor')
     if (full_secreen_value == 'true') {
-        editor.style = 'width: 100%'
-        result.style = 'width: 0%'
+        editorBody.style = 'width: 100%'
+        resultBody.style = 'width: 0%'
     }
     if(full_secreen_value == 'false'){
-        editor.style = 'width: 50%'
-        result.style = 'width: 50%'
+        editorBody.style = 'width: 50%'
+        resultBody.style = 'width: 50%'
     }
 }
 checker(full_screen_editor, 'full-screen-editor')
+
 full_screen_editor.addEventListener('change', () => {
     localStorage.setItem('full-screen-editor', full_screen_editor.checked)
     Screen_Editor()
@@ -205,7 +230,7 @@ full_screen_editor.addEventListener('change', () => {
 })
 
 
-//---- Menue
+//----> Menue
 
 show_Menue.addEventListener('click', () => {
     menue.style = `right: -5px`
@@ -219,3 +244,58 @@ close_Menue.addEventListener('click', () => {
 //         menue.style.right = '-440px'
 //     }
 // }
+
+
+// ---> Controller Resizer Elements Editor
+function resizer()
+{
+    dragElement( document.getElementById("separator"), "H" );
+}
+
+// This function is used for dragging and moving
+function dragElement( element, direction, handler )
+{
+  // Two variables for tracking positions of the cursor
+  const drag = { x : 0, y : 0 };
+  const delta = { x : 0, y : 0 };
+
+  handler ? ( handler.onmousedown = dragMouseDown ): ( element.onmousedown = dragMouseDown );
+
+  // A function that will be called whenever the down event of the mouse is raised
+  function dragMouseDown( e )
+  {
+    drag.x = e.clientX;
+    drag.y = e.clientY;
+    document.onmousemove = onMouseMove;
+    document.onmouseup = () => { document.onmousemove = document.onmouseup = null; }
+  }
+
+  // A function that will be called whenever the up event of the mouse is raised
+  function onMouseMove( e )
+  {
+    const currentX = e.clientX;
+    const currentY = e.clientY;
+
+    delta.x = currentX - drag.x;
+    delta.y = currentY - drag.y;
+
+    const offsetLeft = element.offsetLeft;
+    const offsetTop = element.offsetTop;
+
+
+    const editorBody = document.getElementById("editorBody");
+    const resultBody = document.getElementById("resultBody");
+    let editorWidth = editorBody.offsetWidth;
+    let resultWidth = resultBody.offsetWidth;
+    if (direction === "H" ) // Horizontal
+    {
+        element.style.left = offsetLeft + delta.x + "px";
+        editorWidth += delta.x;
+        resultWidth -= delta.x;
+    }
+    drag.x = currentX;
+    drag.y = currentY;
+    editorBody.style.width = editorWidth + "px";
+    resultBody.style.width = resultWidth + "px";
+  }
+}

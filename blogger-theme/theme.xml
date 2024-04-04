@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Online Editor</title>
+    <script type="text/javascript" src="resizer.js"></script>
+    <b:skin><![CDATA[
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: none !important;
+}
+
+*::selection,
+html::selection,
+body::selection {
+    background: #252541;
+    background: #551a8b;
+    color: #ec6091ce;
+    color: white;
+    border-radius: 10px;
+}
+
+body {
+    /* color: #8dbef6; */
+    color: #06edff;
+    font-family: system-ui;
+    background: #101415;
+    background: #000103;
+    overflow: hidden;
+    height: 100vh;
+    background: #001;
+}
+
+.app {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    margin-top: 50px;
+}
+
+.Keybord {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+button {
+    /* background: #8dbef6; */
+    border-radius: 5px;
+    border: 3px solid #0000293d !important;
+    border-radius: 5px 5px 3px 3px !important;
+    padding: 5px 21px;
+    margin: 8px 3px;
+    margin-left: 10px;
+    color: black;
+    background: none;
+    color: white;
+    border: 1px solid #551a8b !important;
+    transition: background .4s ease-in-out;
+}
+
+button:hover {
+    background: #551a8b;
+    color: white;
+}
+
+button:active {
+    background: #6b6be8;
+    color: white;
+}
+
+button,
+input {
+    cursor: pointer;
+}
+
+input[type="range"] {
+    /* accent-color: #9b59b6; */
+    accent-color: #06e7f9;
+}
+input[type="checkbox"]:checked {
+    accent-color: #00ff00;
+  }
+  input[type="checkbox"]:hover {
+    accent-color: #ffff00;
+  }
+  input[type="checkbox"]:checked::after {
+    accent-color: #00ff00;
+  }
+
+input#font-size {
+    cursor: grab;
+}
+
+input#font-size:active {
+    cursor: grabbing;
+}
+
+
+
+/* ----------------------------------- */
+
+textarea,
+#result {
+    position: relative;
+    background: #25252d;
+    width: 100%;
+    height: 100%;
+    max-height: 93%;
+    margin: 0px 3px;
+    border-radius: 4px;
+    padding: 10px;
+    font-family: sans-serif;
+    color: white;
+    outline: none;
+    border: none;
+    box-shadow: 0 0 0 4px #000011;
+    color: #ffffffc2;
+}
+
+#result {
+    border: 1px solid #25252d;
+    background: #252541;
+    overflow: scroll;
+    transition: width .7s;
+}
+
+.bodyEditor {
+    position: absolute;
+    resize: both; 
+    overflow: auto;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    margin-bottom: 15px;
+}
+
+#editor {
+    background: #001;
+    /* background: #25253B; */
+    /* color: #61acd7; */
+    /* min-height: 93%; */
+    width: 100%;
+    height: 100%;
+    transition: .1s;
+    font-size: 18px;
+    transition: width 0.7s,
+        color .4s;
+}
+
+.splitter {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+#separator {
+    cursor: nesw-resize;
+    background: url(../resize02.png) center center no-repeat #000011;
+    background-position: center;
+    background-size: 14px;
+    background-position-x: -5px;
+    background-position-y: 2px;
+    width: 11px;
+    height: 11px;
+    position: sticky;
+    right: 10px;
+    transform: scale(2.5);
+    margin-top: 0px;
+    min-width: 10px;
+}
+#editorBody,
+#resultBody{
+    transition: .7s ease-in-out;
+}
+#editorBody {
+    width: 100%;
+    height: 100%;
+    min-width: 10px;
+}
+
+#resultBody {
+    width: 100%;
+    height: 100%;
+    min-width: 10px;
+}
+/* ----------------------------------- */
+
+
+.viewed {
+    width: 100% !important;
+}
+
+.hiden {
+    color: transparent !important;
+    width: 0% !important;
+}
+
+/* --- Header --- */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: #001;
+    /* border-bottom: 1px solid rgba(255, 255, 255, 0.223); */
+    z-index: 99;
+    overflow-x: scroll;
+    transition: .7s;
+}
+
+.header div {
+    margin: 0 5px;
+}
+
+.header #resultBtn {
+    padding: 4px 17px;
+    font-size: 14px;
+}
+
+.menue {
+    transition: all .7s;
+}
+
+.sec-2,
+.sec-1,
+.title,
+.menue,
+.sec-2 .inputs-sec-2 {
+    display: flex;
+    align-items: center;
+}
+
+.title {
+    color: white;
+    font-size: 15px;
+    margin-left: 10px !important;
+}
+
+#save {
+    color: white;
+    border: 1px solid #50b7dd !important;
+    background: none;
+    transition: .4s ease-in-out;
+}
+
+#save:hover {
+    background: #50b7dd;
+}
+
+#runBtn,
+input {
+    margin: 0px 15px;
+}
+
+.show-menue,
+.close-menue {
+    width: 23px;
+    height: 23px;
+    background: #252541;
+    border-radius: 20px;
+    display: none;
+}
+
+.show-menue {
+    margin-top: 7px !important;
+    margin-right: 3.6px !important;
+}
+
+.close-menue {
+    position: absolute;
+    top: 8px;
+    left: 5px;
+}
+
+.menue-message {
+    margin-top: 9px !important;
+    text-align: center;
+    border-left: 1px solid #f8d7da;
+    display: none;
+}
+
+@media screen and (max-width: 1094px) {
+
+    .app{
+        margin-top: 57px;
+    }
+
+    #resultBody {
+        min-width: 21px;
+        margin-right: 9px;
+    }
+
+    .show-menue,
+    .close-menue,
+    .menue-message {
+        display: inline-block;
+    }
+
+    .menue {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        position: fixed;
+        top: 0;
+        right: -440px;
+        height: 100%;
+        background: #161624;
+        color: white;
+        overflow-y: scroll;
+    }
+
+    .sec-1,
+    .sec-2,
+    .inputs-sec-2 {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sec-1,
+    .sec-2 {
+        margin-top: 20px !important;
+    }
+
+    .sec-2 div {
+        display: flex;
+        align-items: center;
+    }
+
+    .inputs-sec-2 {
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .inputs-sec-2 div {
+        width: 100%;
+        display: flex;
+        justify-content: space-between !important;
+        margin-left: 19px;
+    }
+
+    #save {
+        position: absolute;
+        bottom: 0;
+        width: 90%;
+    }
+
+    .title {
+        margin-top: 8px !important;
+        margin-left: 10px !important;
+    }
+
+}
+
+#myTextarea::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 10px;
+    background-color: red;
+    cursor: ew-resize;
+}
+
+
+/* Scroll Bar */
+::-webkit-scrollbar {
+    background: none;
+    width: 8px;
+    height: 8px;
+    cursor: pointer !important;
+
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #565656;
+    border-radius: 30px;
+    cursor: pointer !important;
+}
+        ]]></b:skin>
+</head>
+<body>
+  <b:section id="footer-section" class="footer-s"></b:section>
+    <div class="header" id="header">
+        <div class="title">
+            <span>Online IDE</span>
+            <button id="runCode">Run</button>
+        </div>
+        <div class="show-menue" id="show-menue">
+            <i class="ri-setting-line"></i>
+        </div>
+        <div class="menue" id="menue">
+            <div class="alert message message-animation menue-message" id="body-profile-message" role="alert">
+                <p id="menue-messagee">
+                    Setting
+                </p>
+            </div>
+            <div class="close-menue" id="close-menue">
+                <i class="ri-close-line change-theme"></i>
+            </div>
+            <div class="sec-1">
+                <div>
+                    <span>Font Size</span>
+                    <input type="range" name="font-size" id="font-size" />
+                    <span id="font-count"></span>
+                </div>
+            </div>
+            <div class="sec-2">
+                <div class="inputs-sec-2">
+                    <div class="">
+                        <span>Aouto Run</span>
+                        <input type="checkbox" name="auto-run" id="auto-run" />
+                    </div>
+                    <div class="">
+                        <span>Auto Save</span>
+                        <input type="checkbox" name="auto-save" id="auto-save" />
+                    </div>
+                    <div class="">
+                        <span>Word Wrap</span>
+                        <input type="checkbox" name="wrap" id="wrap" />
+                    </div>
+                    <div class="">
+                        <span>Full Screen</span>
+                        <input type="checkbox" name="full-secreen-editor" id="full-secreen-editor" />
+                    </div>
+                </div>
+                <button id="save">Save</button>
+            </div>
+        </div>
+    </div>
+    <div class="app" id="app">
+        <div class="bodyEditor">
+
+            <div class="splitter">
+                <div id="editorBody">
+                    <textarea id="editor"></textarea>
+                </div>
+                <div id="separator"></div>
+                <div id="resultBody">
+                    <iframe id="result" src="about:blank" sandbox="allow-scripts" width="100%"
+                        height="500px"></iframe>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script type='text/javascript'>
+//<![CDATA[
+// Start import elements
+const textArea = document.getElementById('textArea')
+
+// const app2 = document.getElementById('app')
+
+const editor = document.getElementById('editor')
+const result = document.getElementById('result')
+
+const editorBody = document.getElementById('editorBody')
+const resultBody = document.getElementById('resultBody')
+
+const runCode = document.getElementById('runCode')
+const save = document.getElementById('save')
+const auto_run = document.getElementById('auto-run')
+const auto_save = document.getElementById('auto-save')
+const font_size = document.getElementById('font-size')
+const wrap = document.getElementById('wrap')
+const font_count = document.getElementById('font-count')
+const full_screen_editor = document.getElementById('full-secreen-editor')
+
+const menue = document.getElementById('menue')
+const show_Menue = document.getElementById('show-menue')
+const close_Menue = document.getElementById('close-menue')
+
+//----> Demo Code
+const viewResult = () => {
+    result.srcdoc = editor.value
+}
+
+//----> Save Code in Localstorage
+const saveCode = () => {
+    localStorage.setItem('myCode', editor.value)
+}
+
+//----> Save Code in LocalStorage
+save.onclick = () => {
+    saveCode()
+}
+
+const default_values = () => {
+    // Default value of ( Font Size Editor )
+    if (!localStorage.getItem('font-size-editor')) {
+        font_size.value = 18
+        font_count.innerText = 18
+    }else{
+        const font_size = localStorage.getItem('font-size-editor')
+        editor.style.fontSize = `${font_size}px`
+        font_size.value = `${font_size}`
+    }
+    
+    // Default value of ( Full Screen Editor )
+    if (!localStorage.getItem('full-screen-editor')) {
+        localStorage.setItem('full-screen-editor', true)
+        full_screen_editor.checked = true
+    }
+
+    // Default value of ( Wrap )
+    if (!localStorage.getItem('wrap')) {
+        localStorage.setItem('wrap', true)
+        wrap.checked = true
+    }
+
+    // Default value of ( Code )
+    if (!localStorage.getItem('myCode')) {
+        const code = `
+            <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Document</title>
+                    <style>
+                        .welcome{
+                            margin: 10px 0;
+                            color: #f4ebf6;
+                        }
+                        span{
+                            color: red;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1 class="welcome">Hello Wrold<span>!</span></h1> 
+                </body>
+            </html>
+        `
+        localStorage.setItem('myCode', code)
+        editor.value = localStorage.getItem('myCode')
+    }
+    editor.value = localStorage.getItem('myCode')
+}
+
+//----> Get code from LocalStorage and write in Editor
+window.onload = () => {
+    default_values()
+    Screen_Editor()
+    checkWrap()
+    resizer()
+}
+
+
+//----> Result Button
+runCode.onclick = () => {
+    viewResult()
+    // runCode.classList.toggle('running')
+    // result.classList.toggle('viewed')
+    // editor.classList.toggle('hiden')
+    // if (result.className == '') {
+    //     runCode.style.background = '#551a8b'
+    //     runCode.innerText = 'Run'
+    // }else{
+    //     runCode.style.background = '#607d8b'
+    //     runCode.innerText = 'Edit'
+    // }
+
+    runCode.classList.toggle('running')
+    resultBody.classList.toggle('viewed')
+    editorBody.classList.toggle('hiden')
+    if (resultBody.className == '') {
+        runCode.style.background = '#551a8b'
+        runCode.innerText = 'Run'
+    }else{
+        runCode.style.background = '#607d8b'
+        runCode.innerText = 'Edit'
+    }
+
+}
+
+// -- Checker Status box and Apply The Condition
+const checker = (box, key) => {
+    if (localStorage.getItem(key) == 'true') {
+        box.checked = true
+    }else{
+        box.checked = false
+    }
+}
+
+//----> Auto Save
+checker(auto_save, 'auto-save')
+auto_save.addEventListener('change', () => {
+    if (auto_save.checked == true) {
+        localStorage.setItem('auto-save', true)
+    }else if(auto_save.checked == false){
+        localStorage.setItem('auto-save', false)
+    }
+})
+
+//----> Auto Run
+checker(auto_run, 'auto-run')
+auto_run.addEventListener('change', () => {
+    if (auto_run.checked == true) {
+        localStorage.setItem('auto-run', true)
+    }else{
+        localStorage.setItem('auto-run', false)
+    }
+})
+
+
+//----> Font Size
+font_count.innerText = localStorage.getItem('font-size-editor')
+font_size.oninput =  () => {
+    editor.style.fontSize = `${font_size.value}px`
+    localStorage.setItem('font-size-editor', font_size.value)
+    font_count.innerText = localStorage.getItem('font-size-editor')
+}
+
+
+//----> When you start writing, do the following
+editor.onkeyup = () => {
+    if (localStorage.getItem('auto-save') == 'true') {
+        saveCode()
+    }else{
+        console.log('Not Activated Auto Save');
+    }
+    if (localStorage.getItem('auto-run') == 'true') {
+        viewResult()
+    }else{
+        console.log('Not Activated Auto Run');
+    }
+}
+
+
+//----> Word Wrap
+// Check wrap is activated or not
+// editorBody
+// resultBody
+const checkWrap = () => {
+    const wrap_value = localStorage.getItem('wrap')
+    const full_secreen_value = localStorage.getItem('full-screen-editor')
+    if(wrap_value == 'true' && full_secreen_value == 'true'){
+        editorBody.style = 'width: 100%';
+        editor.style = 'text-wrap: wrap;'
+    }else if(wrap_value == 'false' && full_secreen_value == 'false'){
+        editorBody.style = 'width: 50%';
+        editor.style = 'text-wrap: nowrap;'
+    }else if(wrap_value == 'false' && full_secreen_value == 'true'){
+        editorBody.style = 'width: 100%';
+        editor.style = 'text-wrap: nowrap;'
+    }else if(wrap_value == 'true' && full_secreen_value == 'false'){
+        editorBody.style = 'width: 50%';
+        editor.style = 'text-wrap: wrap;'
+    }
+
+    editor.style.fontSize = `${localStorage.getItem('font-size-editor')}px`
+}
+checker(wrap, 'wrap')
+
+wrap.addEventListener('change', () => {
+    localStorage.setItem('wrap', wrap.checked)
+    checkWrap()
+})
+
+//----> Full Screen 
+const Screen_Editor = () => {
+    const full_secreen_value = localStorage.getItem('full-screen-editor')
+    if (full_secreen_value == 'true') {
+        editorBody.style = 'width: 100%'
+        resultBody.style = 'width: 0%'
+    }
+    if(full_secreen_value == 'false'){
+        editorBody.style = 'width: 50%'
+        resultBody.style = 'width: 50%'
+    }
+}
+checker(full_screen_editor, 'full-screen-editor')
+
+full_screen_editor.addEventListener('change', () => {
+    localStorage.setItem('full-screen-editor', full_screen_editor.checked)
+    Screen_Editor()
+    checkWrap()
+})
+
+
+//----> Menue
+
+show_Menue.addEventListener('click', () => {
+    menue.style = `right: -5px`
+})
+close_Menue.addEventListener('click', () => {
+    menue.style = `right: -440px`
+})
+
+// body.onclick = () => {
+//     if (menue.style.right == '-5px') {
+//         menue.style.right = '-440px'
+//     }
+// }
+
+
+// ---> Controller Resizer Elements Editor
+function resizer()
+{
+    dragElement( document.getElementById("separator"), "H" );
+}
+
+// This function is used for dragging and moving
+function dragElement( element, direction, handler )
+{
+  // Two variables for tracking positions of the cursor
+  const drag = { x : 0, y : 0 };
+  const delta = { x : 0, y : 0 };
+
+  handler ? ( handler.onmousedown = dragMouseDown ): ( element.onmousedown = dragMouseDown );
+
+  // A function that will be called whenever the down event of the mouse is raised
+  function dragMouseDown( e )
+  {
+    drag.x = e.clientX;
+    drag.y = e.clientY;
+    document.onmousemove = onMouseMove;
+    document.onmouseup = () => { document.onmousemove = document.onmouseup = null; }
+  }
+
+  // A function that will be called whenever the up event of the mouse is raised
+  function onMouseMove( e )
+  {
+    const currentX = e.clientX;
+    const currentY = e.clientY;
+
+    delta.x = currentX - drag.x;
+    delta.y = currentY - drag.y;
+
+    const offsetLeft = element.offsetLeft;
+    const offsetTop = element.offsetTop;
+
+
+    const editorBody = document.getElementById("editorBody");
+    const resultBody = document.getElementById("resultBody");
+    let editorWidth = editorBody.offsetWidth;
+    let resultWidth = resultBody.offsetWidth;
+    if (direction === "H" ) // Horizontal
+    {
+        element.style.left = offsetLeft + delta.x + "px";
+        editorWidth += delta.x;
+        resultWidth -= delta.x;
+    }
+    drag.x = currentX;
+    drag.y = currentY;
+    editorBody.style.width = editorWidth + "px";
+    resultBody.style.width = resultWidth + "px";
+  }
+}
+
+//]]>
+</script>
+</body>
+</html>
