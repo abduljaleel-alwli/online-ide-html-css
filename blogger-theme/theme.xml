@@ -162,6 +162,7 @@ textarea,
 #separator {
     cursor: nesw-resize;
     background: url(../resize02.png) center center no-repeat #000011;
+    background: url(https://raw.githubusercontent.com/abduljaleel-alwli/online-ide-html-css/main/assets/images/resize02.png) center center no-repeat #000011;
     background-position: center;
     background-size: 14px;
     background-position-x: -5px;
